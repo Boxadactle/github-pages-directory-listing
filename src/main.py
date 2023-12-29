@@ -35,7 +35,8 @@ def main():
 
             with open(os.path.join(dirname, 'index.html'), 'w', encoding="utf-8") as f:
                 html = [
-                    get_template_head(dirname)
+                    get_template_head(dirname),
+                    '<a href="../">../</a>'
                 ]
 
                 #sort dirnames alphabetically
@@ -57,7 +58,7 @@ def main():
 def append_spaces(st, amount):
     new = st
     for i in range(0, amount):
-        new += ' '
+        new += '&nbsp;'
     return new
 
 def space_date(str1, str2):

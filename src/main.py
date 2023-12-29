@@ -42,7 +42,7 @@ def main():
                 #sort dirnames alphabetically
                 dirnames.sort()
                 for subdirname in dirnames:
-                    html.append(gen_row(subdirname, '-', '-'))
+                    html.append(gen_row(subdirname + "/", '-', '-'))
                     
                 #sort filenames alphabetically
                 filenames.sort()

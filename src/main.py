@@ -49,7 +49,7 @@ def main():
                 for filename in filenames:
                     path = (dirname == '.' and filename or dirname +
                             '/' + filename)
-                    html.append(gen_row(f'<a href="{filename}">{filename}</a>', get_file_modified_time(path), get_file_size(path)))
+                    html.append(gen_row(filename, get_file_modified_time(path), get_file_size(path)))
 
                 html.append(get_template_foot())
 
@@ -64,7 +64,7 @@ def append_spaces(st, amount):
 def space_date(str1, str2):
     spaces_needed = 50 - len(str1)
     
-    nstr1 = append_spaces(str1, spaces_needed)
+    nstr1 = append_spaces(f'<a href="{str1}">{str1}</a>', spaces_needed)
     
     result = nstr1 + str2
     

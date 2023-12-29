@@ -9,9 +9,6 @@ import json
 import base64
 import datetime as dt
 
-with open('/src/icons.json', encoding="utf-8") as json_file:
-    data = json.load(json_file)
-
 
 def main():
     """
@@ -32,31 +29,52 @@ def main():
     for dirname, dirnames, filenames in os.walk('.'):
         if 'index.html' in filenames:
             print("index.html already exists, skipping...")
+
         else:
             print("index.html does not exist, generating")
+
             with open(os.path.join(dirname, 'index.html'), 'w', encoding="utf-8") as f:
+
                 f.write("\n".join([
                     get_template_head(dirname),
-                    "<tr class=\"w-2/4 bg-white border-b hover:bg-gray-50\"><th scope=\"row\" class=\" py-2 px-2 lg:px-6 font-medium text-gray-900 whitespace-nowrap flex align-middle\"><img style=\"max-width:23px; margin-right:5px\" src=\"" + get_icon_base64("o.folder-home") + "\"/>" +
-                        "<a class=\"my-auto text-blue-700\" href=\"../\">../</a></th><td>-</td><td>-</td></tr>" if dirname != "." else "",
-                        ]))
+                ]))
+
                 #sort dirnames alphabetically
                 dirnames.sort()
                 for subdirname in dirnames:
-                    f.write("<tr class=\"w-1/4 bg-white border-b hover:bg-gray-50\"><th scope=\"row\" class=\" py-2 px-2 lg:px-6 font-medium text-gray-900 whitespace-nowrap flex align-middle\"><img style=\"max-width:23px; margin-right:5px\" src=\"" + get_icon_base64("o.folder") + "\"/>" + "<a class=\"my-auto text-blue-700\" href=\"" + subdirname + "/\">" +
-                            subdirname + "/</a></th><td>-</td><td>-</td></tr>\n")
+                    f.write(gen_row(f'<a href="{subdirname}/">{subdirname}/</a>', '-', '-'))
+                    
                 #sort filenames alphabetically
                 filenames.sort()
                 for filename in filenames:
                     path = (dirname == '.' and filename or dirname +
                             '/' + filename)
-                    f.write("<tr class=\"w-1/4 bg-white border-b hover:bg-gray-50\"><th scope=\"row\" class=\" py-2 px-2 lg:px-6 font-medium text-gray-900 whitespace-nowrap flex align-middle\"><img style=\"max-width:23px; margin-right:5px\" src=\"" + get_icon_base64(filename) + "\"/>" + "<a class=\"my-auto text-blue-700\" href=\"" + filename + "\">" + filename + "</a></th><td>" +
-                            get_file_size(path) + "</td><td>" + get_file_modified_time(path) + "</td></tr>\n")
+                    f.write(gen_row(f'<a href="{filename}">{filename}</a>', get_file_modified_time(path), get_file_size(path)))
 
                 f.write("\n".join([
                     get_template_foot(),
                 ]))
 
+def space_date(str1, str2):
+    spaces_needed = max(0, 50 - len(str1))
+    
+    str1 += ' ' * spaces_needed
+    
+    result = str1 + str2
+    
+    return result
+
+def space_size(str1, str2):
+    spaces_needed = max(0, 26 - len(str1) - len(str2))
+    
+    str1 += ' ' * spaces_needed
+    
+    result = str1 + ' ' + str2
+    
+    return result
+
+def gen_row(name, date, size):
+    return space_date(name, space_size(date, size))
 
 def get_file_size(filepath):
     """
@@ -101,29 +119,6 @@ def get_template_foot():
     foot = foot.replace("{{buildtime}}", "at " + dt.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     return foot
 
-def get_icon_base64(filename):
-    """
-    get icon base64
-    """
-    with open("/src/png/" + get_icon_from_filename(filename), "rb") as file:
-        return "data:image/png;base64, " + base64.b64encode(file.read()).decode('ascii')
-
-
-def get_icon_from_filename(filename):
-    """
-    get icon from filename
-    """
-    extension = "." + filename.split(".")[-1]
-    # extension = "." + extension
-    # print(extension)
-    for i in data:
-        if extension in i["extension"]:
-            # print(i["icon"])
-            return i["icon"] + ".png"
-    # print("no icon found")
-    return "unknown.png"
-
 
 if __name__ == "__main__":
     main()
-    # get_icon_from_filename("test.txppt")

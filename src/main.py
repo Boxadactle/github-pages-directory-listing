@@ -34,42 +34,47 @@ def main():
             print("index.html does not exist, generating")
 
             with open(os.path.join(dirname, 'index.html'), 'w', encoding="utf-8") as f:
-
-                f.write("\n".join([
-                    get_template_head(dirname),
-                ]))
+                html = [
+                    get_template_head(dirname)
+                ]
 
                 #sort dirnames alphabetically
                 dirnames.sort()
                 for subdirname in dirnames:
-                    f.write(gen_row(f'<a href="{subdirname}/">{subdirname}/</a>', '-', '-'))
+                    html.append(gen_row(f'<a href="{subdirname}/">{subdirname}/</a>', '-', '-'))
                     
                 #sort filenames alphabetically
                 filenames.sort()
                 for filename in filenames:
                     path = (dirname == '.' and filename or dirname +
                             '/' + filename)
-                    f.write(gen_row(f'<a href="{filename}">{filename}</a>', get_file_modified_time(path), get_file_size(path)))
+                    html.append(gen_row(f'<a href="{filename}">{filename}</a>', get_file_modified_time(path), get_file_size(path)))
 
-                f.write("\n".join([
-                    get_template_foot(),
-                ]))
+                html.append(get_template_foot())
+
+                f.write("\n".join(html))
+
+def append_spaces(st, amount):
+    new = st
+    for i in range(0, amount):
+        new += ' '
+    return new
 
 def space_date(str1, str2):
     spaces_needed = max(0, 50 - len(str1))
     
-    str1 += ' ' * spaces_needed
+    nstr1 = append_spaces(str1, spaces_needed)
     
-    result = str1 + str2
+    result = nstr1 + str2
     
     return result
 
 def space_size(str1, str2):
     spaces_needed = max(0, 26 - len(str1) - len(str2))
     
-    str1 += ' ' * spaces_needed
+    nstr1 = append_spaces(str1, spaces_needed)
     
-    result = str1 + ' ' + str2
+    result = nstr1 + ' ' + str2
     
     return result
 

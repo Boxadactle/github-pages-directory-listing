@@ -71,7 +71,7 @@ def space_date(str1, str2):
     return result
 
 def space_size(str1, str2):
-    spaces_needed = 26 - len(str1) - len(str2)
+    spaces_needed = 26 - len(str1)
     
     nstr1 = append_spaces(str1, spaces_needed)
     

@@ -57,12 +57,12 @@ def main():
 
 def append_spaces(st, amount):
     new = st
-    for i in range(0, amount):
+    for i in range(0, amount - 1):
         new += '&nbsp;'
     return new
 
 def space_date(str1, str2):
-    spaces_needed = max(0, 50 - len(str1))
+    spaces_needed = 50 - len(str1)
     
     nstr1 = append_spaces(str1, spaces_needed)
     
@@ -71,7 +71,7 @@ def space_date(str1, str2):
     return result
 
 def space_size(str1, str2):
-    spaces_needed = max(0, 26 - len(str1) - len(str2))
+    spaces_needed = 26 - len(str1) - len(str2)
     
     nstr1 = append_spaces(str1, spaces_needed)
     

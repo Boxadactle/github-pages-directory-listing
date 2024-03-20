@@ -26,7 +26,8 @@ def main():
         print("no directory specified")
         sys.exit()
 
-    with open(os.path.join(sys.argv[1], "404.html"), 'w', encoding="utf-8") as f:
+    FourOhFourPath = os.path.join(sys.argv[1], "404.html")
+    with open(FourOhFourPath, 'w', encoding="utf-8") as f:
         f.write("""<html><head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>404 Not Found</title></head>
 <body>
@@ -35,6 +36,8 @@ def main():
 
 
 </body></html>""")
+
+    print("Created 404 file at " + FourOhFourPath)
 
     for dirname, dirnames, filenames in os.walk('.'):
         if 'index.html' in filenames:

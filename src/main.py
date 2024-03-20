@@ -122,7 +122,7 @@ def get_template_head(foldername):
     """
     with open("/src/template/head.html", "r", encoding="utf-8") as file:
         head = file.read()
-    head = head.replace("{{foldername}}", foldername)
+    head = head.replace("{{foldername}}", foldername[1:])
     return head
 
 

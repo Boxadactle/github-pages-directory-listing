@@ -14,7 +14,7 @@ def main():
     """
     main function
     """
-    with open("./404.html", w, encoding="utf-8") as f:
+    with open("./404.html", 'w', encoding="utf-8") as f:
         f.write("""<html><head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>404 Not Found</title></head>
 <body>

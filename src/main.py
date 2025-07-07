@@ -47,10 +47,10 @@ def main():
                 #sort filenames alphabetically
                 filenames.sort()
                 for filename in filenames:
-                    if filename.startswith(".") continue
-                    path = (dirname == '.' and filename or dirname +
-                            '/' + filename)
-                    html.append(gen_row(filename, get_file_modified_time(path), get_file_size(path)))
+                    if not filename.startswith("."):
+                        path = (dirname == '.' and filename or dirname +
+                                '/' + filename)
+                        html.append(gen_row(filename, get_file_modified_time(path), get_file_size(path)))
 
                 html.append(get_template_foot())
 
